@@ -1,4 +1,4 @@
-import { defineTool, type AnyToolDefinition, type ToolContext } from "@lovable.dev/mcp-js";
+import { defineTool, type ToolDefinition, type ToolContext } from "@lovable.dev/mcp-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ZodTypeAny } from "zod";
 import { supabaseForUser } from "./supabase";
@@ -43,7 +43,7 @@ interface JarvisToolConfig<S extends Record<string, ZodTypeAny>> {
  * Wraps every Jarvis capability with the permission engine:
  * identify caller -> resolve capability policy -> execute -> write audit entry.
  */
-export function defineJarvisTool<S extends Record<string, ZodTypeAny>>(config: JarvisToolConfig<S>): AnyToolDefinition {
+export function defineJarvisTool<S extends Record<string, ZodTypeAny>>(config: JarvisToolConfig<S>): ToolDefinition<Record<string, never>, Record<string, never>> {
   return defineTool({
     name: config.name,
     title: config.title,
@@ -100,5 +100,5 @@ export function defineJarvisTool<S extends Record<string, ZodTypeAny>>(config: J
         return fail(message);
       }
     }) as never,
-  }) as AnyToolDefinition;
+  }) as unknown as ToolDefinition<Record<string, never>, Record<string, never>>;
 }
