@@ -1,0 +1,479 @@
+{
+  "version": 1,
+  "sdk_version": "0.28.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://onwiddrunanhogwvzebc.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "jarvis",
+      "version": "0.1.0",
+      "title": "JARVIS"
+    },
+    "tools": [
+      {
+        "name": "devices_list",
+        "title": "List Jarvis devices",
+        "description": "List the devices paired to the user's Jarvis account with status, battery and capabilities.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "devices_get",
+        "title": "Get a Jarvis device",
+        "description": "Get one paired device by name or id, including its granted capabilities.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "device": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Device name or id."
+            }
+          },
+          "required": [
+            "device"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "devices_send_command",
+        "title": "Send a command to a device",
+        "description": "Queue a capability command (e.g. open_app, get_screen) for a paired Jarvis device agent to execute.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "device": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Device name or id."
+            },
+            "command": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Capability command, e.g. phone.open_app."
+            },
+            "args": {
+              "description": "Optional JSON arguments for the command.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "device",
+            "command"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "notifications_get_recent",
+        "title": "Recent notifications",
+        "description": "Get the most recent notifications captured by the user's Jarvis devices.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "How many to return (default 20).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "notifications_get_unread",
+        "title": "Unread notifications",
+        "description": "Get notifications the user has not read yet — useful for 'what did I miss?'.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "notifications_search",
+        "title": "Search notifications",
+        "description": "Search captured notifications by keyword, app name or sender across all paired devices.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Keyword to match in title, body or sender.",
+              "type": "string"
+            },
+            "app": {
+              "description": "Filter by app, e.g. WhatsApp, Gmail, Discord.",
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "notifications_mark_read",
+        "title": "Mark notifications read",
+        "description": "Mark one notification, or all notifications, as read.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Notification id; omit to mark all read.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "tasks_list",
+        "title": "List tasks",
+        "description": "List the user's Jarvis tasks, optionally including completed ones.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "include_completed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "tasks_create",
+        "title": "Create a task",
+        "description": "Create a task in the user's Jarvis task list.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "notes": {
+              "type": "string"
+            },
+            "priority": {
+              "type": "string",
+              "enum": [
+                "low",
+                "normal",
+                "high"
+              ]
+            },
+            "due_at": {
+              "description": "ISO 8601 timestamp.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "tasks_complete",
+        "title": "Complete a task",
+        "description": "Mark a Jarvis task as completed.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "memory_search",
+        "title": "Search Jarvis memory",
+        "description": "Search the user's Jarvis memory (preferences, people, projects, events) by keyword or category.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "preferences",
+                "people",
+                "projects",
+                "tasks",
+                "conversations",
+                "devices",
+                "events",
+                "facts"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "memory_store",
+        "title": "Store a memory",
+        "description": "Save a durable fact, preference or event into the user's Jarvis memory.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "preferences",
+                "people",
+                "projects",
+                "tasks",
+                "conversations",
+                "devices",
+                "events",
+                "facts"
+              ]
+            }
+          },
+          "required": [
+            "title",
+            "content"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "memory_delete",
+        "title": "Delete a memory",
+        "description": "Delete one memory entry from Jarvis memory.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "automations_list",
+        "title": "List automations",
+        "description": "List the user's Jarvis automations (trigger / condition / action rules).",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "automations_create",
+        "title": "Create an automation",
+        "description": "Create a trigger / condition / action automation in Jarvis.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "trigger": {
+              "type": "string",
+              "minLength": 1,
+              "description": "e.g. 'every morning at 08:00' or 'github issue created'."
+            },
+            "condition": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1,
+              "description": "e.g. 'summarize unread notifications'."
+            }
+          },
+          "required": [
+            "name",
+            "trigger",
+            "action"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "automations_set_enabled",
+        "title": "Enable or disable an automation",
+        "description": "Turn a Jarvis automation on or off.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "enabled"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "activity_list",
+        "title": "List Jarvis activity",
+        "description": "Read the Jarvis audit log: which AI client requested which capability, when, and whether it was allowed.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "permissions_list",
+        "title": "List capability permissions",
+        "description": "Show the user's permission policy for each Jarvis capability (allow, ask or deny).",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      }
+    ]
+  }
+}
