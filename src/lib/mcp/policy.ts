@@ -54,7 +54,7 @@ export function defineJarvisTool<S extends Record<string, ZodTypeAny>>(config: J
       destructiveHint: Boolean(config.write),
       openWorldHint: false,
     },
-    handler: async (input: Record<string, unknown>, ctx: ToolContext) => {
+    handler: (async (input: Record<string, unknown>, ctx: ToolContext) => {
       if (!ctx.isAuthenticated()) return fail("Not authenticated with Jarvis.");
       const userId = ctx.getUserId();
       if (!userId) return fail("No Jarvis user bound to this session.");
