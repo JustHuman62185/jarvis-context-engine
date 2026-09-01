@@ -99,6 +99,6 @@ export function defineJarvisTool<S extends Record<string, ZodTypeAny>>(config: J
         await audit("error", message);
         return fail(message);
       }
-    },
+    }) as never,
   });
 }
