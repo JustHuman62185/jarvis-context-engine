@@ -14,7 +14,366 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_connections: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          last_used_at: string | null
+          provider: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          last_used_at?: string | null
+          provider: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          last_used_at?: string | null
+          provider?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_log: {
+        Row: {
+          actor: string
+          created_at: string
+          device_id: string | null
+          id: string
+          status: string
+          summary: string | null
+          tool: string
+          user_id: string
+        }
+        Insert: {
+          actor?: string
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          status?: string
+          summary?: string | null
+          tool: string
+          user_id?: string
+        }
+        Update: {
+          actor?: string
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          status?: string
+          summary?: string | null
+          tool?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automations: {
+        Row: {
+          action: string
+          condition: string | null
+          created_at: string
+          enabled: boolean
+          id: string
+          last_run_at: string | null
+          name: string
+          trigger: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          condition?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name: string
+          trigger: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          action?: string
+          condition?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          trigger?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      devices: {
+        Row: {
+          battery: number | null
+          capabilities: string[]
+          created_at: string
+          id: string
+          is_primary: boolean
+          kind: string
+          last_seen: string | null
+          name: string
+          pairing_code: string | null
+          platform: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          battery?: number | null
+          capabilities?: string[]
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          kind?: string
+          last_seen?: string | null
+          name: string
+          pairing_code?: string | null
+          platform?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          battery?: number | null
+          capabilities?: string[]
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          kind?: string
+          last_seen?: string | null
+          name?: string
+          pairing_code?: string | null
+          platform?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      memories: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          app: string
+          body: string | null
+          created_at: string
+          device_id: string | null
+          id: string
+          is_read: boolean
+          posted_at: string
+          sender: string | null
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          app: string
+          body?: string | null
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          is_read?: boolean
+          posted_at?: string
+          sender?: string | null
+          title?: string | null
+          user_id?: string
+        }
+        Update: {
+          app?: string
+          body?: string | null
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          is_read?: boolean
+          posted_at?: string
+          sender?: string | null
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permissions: {
+        Row: {
+          capability: string
+          connection_id: string | null
+          created_at: string
+          id: string
+          level: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          capability: string
+          connection_id?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          capability?: string
+          connection_id?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permissions_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "ai_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          completed: boolean
+          created_at: string
+          due_at: string | null
+          id: string
+          notes: string | null
+          priority: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          due_at?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          due_at?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
